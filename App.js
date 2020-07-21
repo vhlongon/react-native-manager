@@ -1,21 +1,62 @@
-import "react-native-gesture-handler";
-import React from "react";
-import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
-import HomeScreen from "./src/HomeScreen";
+import React, { useEffect } from 'react';
+import { AsyncStorage } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import {
+  Provider as AuthProvider,
+  useAuthContext,
+  ADD_ERROR,
+  RESTORE_SESSION,
+} from './src/context/AuthContext';
+import HomeScreen from './src/screens/HomeScreen';
+import SigninScreen from './src/screens/SigninScreen';
+import SignupScreen from './src/screens/SignupScreen';
+import LoadingSpinner from './src/components/LoadingSpinner';
+import * as RootNavigation from './src/RootNavigation';
 
 const Stack = createStackNavigator();
 
-const App = () => (
-  <NavigationContainer>
-    <Stack.Navigator initialRouteName="Home">
-      <Stack.Screen
-        name="Home"
-        options={{ title: "Welcome" }}
-        component={HomeScreen}
-      />
-    </Stack.Navigator>
-  </NavigationContainer>
-);
+const App = () => {
+  const [{ loading, isSignedIn }, dispatch] = useAuthContext();
 
-export default App;
+  useEffect(() => {
+    const tryLocalSignin = async () => {
+      let userId;
+
+      try {
+        userId = await AsyncStorage.getItem('userId');
+      } catch (e) {
+        dispatch({ type: ADD_ERROR, payload: e.message });
+      }
+
+      dispatch({ type: RESTORE_SESSION, payload: userId });
+    };
+
+    tryLocalSignin();
+  }, [dispatch]);
+
+  if (loading) {
+    return <LoadingSpinner />;
+  }
+
+  return (
+    <Stack.Navigator>
+      {isSignedIn ? (
+        <Stack.Screen name="Home" component={HomeScreen} />
+      ) : (
+        <>
+          <Stack.Screen name="Signin" component={SigninScreen} />
+          <Stack.Screen name="Signup" component={SignupScreen} />
+        </>
+      )}
+    </Stack.Navigator>
+  );
+};
+
+export default () => (
+  <AuthProvider>
+    <NavigationContainer ref={RootNavigation.navigationRef}>
+      <App />
+    </NavigationContainer>
+  </AuthProvider>
+);
