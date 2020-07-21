@@ -3,7 +3,7 @@ import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Button, Input, Text } from 'react-native-elements';
 
 const styles = StyleSheet.create({
-  container: { marginTop: 20 },
+  container: { marginTop: 40 },
   button: {
     margin: 10,
   },
@@ -14,15 +14,15 @@ const styles = StyleSheet.create({
   },
   debugContainer: {
     position: 'absolute',
-    top: 0,
+    top: -15,
     right: 10,
     borderWidth: 1,
-    borderColor: 'hotpink',
+    borderColor: '#E68400',
     padding: 5,
     borderRadius: 2,
   },
   debugText: {
-    color: 'hotpink',
+    color: '#E68400',
   },
 });
 

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { AsyncStorage } from 'react-native';
+import { AsyncStorage, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import {
@@ -40,13 +40,34 @@ const App = () => {
   }
 
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: '#055694',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: { textAlign: 'center' },
+      }}>
       {isSignedIn ? (
         <Stack.Screen name="Home" component={HomeScreen} />
       ) : (
         <>
-          <Stack.Screen name="Signin" component={SigninScreen} />
-          <Stack.Screen name="Signup" component={SignupScreen} />
+          <Stack.Screen
+            name="Signin"
+            options={{
+              title: 'Welcome, please sign in',
+              headerLeft: () => null,
+            }}
+            component={SigninScreen}
+          />
+          <Stack.Screen
+            name="Signup"
+            options={{
+              title: 'Welcome, please sign up',
+              headerLeft: () => null,
+            }}
+            component={SignupScreen}
+          />
         </>
       )}
     </Stack.Navigator>
