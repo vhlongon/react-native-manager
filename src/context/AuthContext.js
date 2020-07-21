@@ -22,7 +22,7 @@ const authReducer = (state, { type, payload }) => {
       return { ...state, error: null, isSignedIn: false, loading: false, userId: null };
     }
     case RESTORE_SESSION: {
-      return { ...state, loading: false, userId: payload };
+      return { ...state, loading: false, isSignedIn: Boolean(payload), userId: payload };
     }
     case RESET: {
       return initialState;

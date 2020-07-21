@@ -11,9 +11,10 @@ const SignupScreen = () => {
   const handleOnSubmit = async (email, password) => {
     try {
       dispatch({ type: SIGNING_IN });
-      const { uid } = await signUp(email, password);
-      await AsyncStorage.setItem('userId', uid);
-      dispatch({ type: SIGN_IN, payload: uid });
+      const response = await signUp(email, password);
+      const userId = response.user.uid;
+      await AsyncStorage.setItem('userId', userId);
+      dispatch({ type: SIGN_IN, payload: userId });
     } catch (e) {
       dispatch({ type: ADD_ERROR, payload: e.message });
     }

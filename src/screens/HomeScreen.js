@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, AsyncStorage } from 'react-native';
 import { signOut } from '../services/firebaseStore';
 import { SIGN_OUT, ADD_ERROR, useAuthContext } from '../context/AuthContext';
 
@@ -16,6 +16,7 @@ const HomeScreen = () => {
   const handleSignout = async () => {
     try {
       await signOut();
+      await AsyncStorage.removeItem('userId');
       dispatch({ type: SIGN_OUT });
     } catch (e) {
       dispatch({ type: ADD_ERROR, payload: e.message });
