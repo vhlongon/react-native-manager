@@ -6,6 +6,7 @@ export const RESET = 'RESET';
 export const RESTORE_SESSION = 'RESTORE_SESSION';
 export const SIGN_OUT = 'SIGN_OUT';
 export const SIGNING_IN = 'SIGNING_IN';
+export const CLEAR_ERROR = 'CLEAR_ERROR';
 
 const initialState = { isSignedIn: false, loading: true, userId: null, error: null };
 
@@ -28,6 +29,9 @@ const authReducer = (state, { type, payload }) => {
     }
     case SIGNING_IN: {
       return { ...state, loading: true };
+    }
+    case CLEAR_ERROR: {
+      return { ...state, error: null };
     }
     default: {
       return state;

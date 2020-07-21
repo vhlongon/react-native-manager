@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Button, Input, Text } from 'react-native-elements';
 
 const styles = StyleSheet.create({
+  container: { marginTop: 20 },
   button: {
     margin: 10,
   },
@@ -13,7 +14,7 @@ const styles = StyleSheet.create({
   },
   debugContainer: {
     position: 'absolute',
-    top: 10,
+    top: 0,
     right: 10,
     borderWidth: 1,
     borderColor: 'hotpink',
@@ -37,8 +38,9 @@ const AuthForm = ({ error, buttonText, onSubmit = () => {} }) => {
   const handleOnSubmit = () => {
     onSubmit(email, password);
   };
+
   return (
-    <>
+    <View style={styles.container}>
       <Input
         label="Email"
         value={email}
@@ -59,7 +61,7 @@ const AuthForm = ({ error, buttonText, onSubmit = () => {} }) => {
       <TouchableOpacity style={styles.debugContainer} onPress={fillForm}>
         <Text style={styles.debugText}>Fill form</Text>
       </TouchableOpacity>
-    </>
+    </View>
   );
 };
 
