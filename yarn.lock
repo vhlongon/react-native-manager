@@ -1509,6 +1509,14 @@
   resolved "https://artifactory.etraveli.net/artifactory/api/npm/remote-npm/@react-native-community/masked-view/-/masked-view-0.1.10.tgz#5dda643e19e587793bc2034dd9bf7398ad43d401"
   integrity sha1-XdpkPhnlh3k7wgNN2b9zmK1D1AE=
 
+"@react-navigation/bottom-tabs@^5.7.2":
+  version "5.7.2"
+  resolved "https://artifactory.etraveli.net/artifactory/api/npm/remote-npm/@react-navigation/bottom-tabs/-/bottom-tabs-5.7.2.tgz#330c8ade026030830fce7806ce53cbae97a36e28"
+  integrity sha1-MwyK3gJgMIMPzngGzlPLrpejbig=
+  dependencies:
+    color "^3.1.2"
+    react-native-iphone-x-helper "^1.2.1"
+
 "@react-navigation/core@^5.12.1":
   version "5.12.1"
   resolved "https://artifactory.etraveli.net/artifactory/api/npm/remote-npm/@react-navigation/core/-/core-5.12.1.tgz#46817ebf19ca9dc32559aaa70130c294deb3d7e0"

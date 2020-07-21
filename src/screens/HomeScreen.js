@@ -1,35 +1,43 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, AsyncStorage } from 'react-native';
-import { signOut } from '../services/firebaseStore';
-import { SIGN_OUT, ADD_ERROR, useAuthContext } from '../context/AuthContext';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { FontAwesome, Ionicons } from '@expo/vector-icons';
+import EmployeeListScreen from './EmployeeListScreen';
+import AccountScreen from './AccountScreen';
 
-const styles = StyleSheet.create({
-  link: {
-    color: '#2089dc',
-    textAlign: 'center',
-  },
-});
+const Tab = createBottomTabNavigator();
 
 const HomeScreen = () => {
-  const [, dispatch] = useAuthContext();
-
-  const handleSignout = async () => {
-    try {
-      await signOut();
-      await AsyncStorage.removeItem('userId');
-      dispatch({ type: SIGN_OUT });
-    } catch (e) {
-      dispatch({ type: ADD_ERROR, payload: e.message });
-    }
-  };
-
+  console.log('homescreen');
   return (
-    <View>
-      <Text>HomeScreen</Text>
-      <TouchableOpacity onPress={handleSignout}>
-        <Text style={styles.link}>Sign-out</Text>
-      </TouchableOpacity>
-    </View>
+    <Tab.Navigator
+      tabBarOptions={{
+        activeBackgroundColor: 'rgba(4, 86, 147, 0.1)',
+        inactiveTintColor: '#055694',
+        labelStyle: { fontSize: 12 },
+      }}>
+      <Tab.Screen
+        title="Employees"
+        name="Employees"
+        component={EmployeeListScreen}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <Ionicons name="ios-people" size={20} color={focused ? '#2089dc' : '#055694'} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        title="Account"
+        name="Account"
+        component={AccountScreen}
+        options={{
+          tabBarIcon: ({ focused }) => (
+            <FontAwesome name="gear" size={20} color={focused ? '#2089dc' : '#055694'} />
+          ),
+        }}
+        tabBar
+      />
+    </Tab.Navigator>
   );
 };
 
