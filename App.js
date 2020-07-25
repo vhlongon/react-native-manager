@@ -14,6 +14,7 @@ import SignupScreen from './src/screens/SignupScreen';
 import LoadingSpinner from './src/components/LoadingSpinner';
 import * as RootNavigation from './src/RootNavigation';
 import AddEmployeeScreen from './src/screens/AddEmployeeScreen';
+import EmployeeDetailsScreen from './src/screens/EmployeeDetailsScreen';
 
 const Stack = createStackNavigator();
 
@@ -58,6 +59,11 @@ const App = () => {
             name="AddEmployee"
             options={{ title: 'Create employee' }}
             component={AddEmployeeScreen}
+          />
+          <Stack.Screen
+            name="EmployeeDetails"
+            options={{ title: 'Employee details' }}
+            component={EmployeeDetailsScreen}
           />
         </>
       ) : (

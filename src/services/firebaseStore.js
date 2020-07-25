@@ -1,5 +1,5 @@
 import firebase from 'firebase/app';
-import 'firebase/firestore';
+import 'firebase/database';
 import 'firebase/auth';
 
 const config = {
@@ -14,7 +14,6 @@ const config = {
 };
 
 export const app = !firebase.apps.length ? firebase.initializeApp(config) : firebase.app();
-const db = firebase.firestore();
 
 export const signIn = (email, password) =>
   firebase.auth().signInWithEmailAndPassword(email, password);
@@ -23,3 +22,37 @@ export const signOut = () => firebase.auth().signOut();
 
 export const signUp = (email, password) =>
   firebase.auth().createUserWithEmailAndPassword(email, password);
+
+export const getUser = () =>
+  new Promise(resolve => {
+    firebase.auth().onAuthStateChanged(resolve);
+  });
+
+export const addEmployee = async ({ name, phone, shift }) => {
+  const { uid } = await getUser();
+  return firebase.database().ref(`/users/${uid}/employees`).push({ name, phone, shift });
+};
+
+export const updateEmployee = async ({ name, phone, shift, id }) => {
+  const { uid } = await getUser();
+  return firebase.database().ref(`/users/${uid}/employees/${id}`).set({ name, phone, shift });
+};
+
+export const removeEmployee = async ({ id }) => {
+  const { uid } = await getUser();
+  return firebase.database().ref(`/users/${uid}/employees/${id}`).remove();
+};
+
+export const getEmployees = async () => {
+  const { uid } = await getUser();
+
+  return new Promise(resolve => {
+    firebase
+      .database()
+      .ref(`/users/${uid}/employees`)
+      .on('value', snapshot => {
+        const data = snapshot.exists() ? snapshot.val() : null;
+        resolve(data);
+      });
+  });
+};

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, TouchableOpacity, View, Picker } from 'react-native';
 import { Button, Input, Text } from 'react-native-elements';
+import casual from 'casual-browserify';
 
 const styles = StyleSheet.create({
   container: { marginTop: 40 },
@@ -40,56 +41,87 @@ const styles = StyleSheet.create({
   },
 });
 
-const EmployeeForm = ({ error, buttonText, onSubmit = () => {} }) => {
-  const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
-  const [shift, setShift] = useState('');
+const isEmpty = object => !Object.values(object).every(Boolean);
+const daysOfTheWeek = [
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+  'Saturday',
+  'Sunday',
+];
+
+const EmployeeForm = ({
+  error,
+  buttonText,
+  onSubmit = () => {},
+  initialValues = { name: '', phone: '', shift: '' },
+  loading,
+}) => {
+  const [values, setValues] = useState(initialValues);
 
   const fillForm = () => {
-    setName('Name');
-    setPhone('123456');
-    setShift('night');
+    setValues({
+      name: casual.name,
+      phone: casual.phone,
+      shift: casual.random_element(daysOfTheWeek),
+    });
+  };
+
+  const setValue = name => value => {
+    setValues(state => ({ ...state, [name]: value }));
   };
 
   const handleOnSubmit = () => {
-    onSubmit(name, phone, shift);
+    onSubmit(values);
   };
 
+  const disabled = isEmpty(values);
+
   return (
-    <View style={styles.container}>
-      <Input
-        label="Name"
-        value={name}
-        placeholder="John"
-        onChangeText={setName}
-        autoCapitalize="none"
-        autoCorrect={false}
-      />
-      <Input
-        label="Phone"
-        value={phone}
-        onChangeText={setPhone}
-        autoCapitalize="none"
-        placeholder="555-555-5555"
-        autoCorrect={false}
-      />
-      <View style={styles.pickerContainer}>
-        <Text style={styles.pickerLabel}>Select shift</Text>
-        <Picker style={styles.picker} selectedValue={shift} onValueChange={setShift}>
-          <Picker.Item label="Monday" value="Monday" />
-          <Picker.Item label="Tuesday" value="Tuesday" />
-          <Picker.Item label="Wednesday" value="Wednesday" />
-          <Picker.Item label="Thursday" value="Thursday" />
-          <Picker.Item label="Friday" value="Friday" />
-          <Picker.Item label="Saturday" value="Saturday" />
-          <Picker.Item label="Sunday" value="Sunday" />
-        </Picker>
+    <View>
+      <View style={styles.container}>
+        <Input
+          label="Name"
+          value={values.name}
+          placeholder="John"
+          onChangeText={setValue('name')}
+          autoCapitalize="none"
+          autoCorrect={false}
+        />
+        <Input
+          label="Phone"
+          value={values.phone}
+          onChangeText={setValue('phone')}
+          placeholder="555-555-5555"
+          autoCompleteType="tel"
+          keyboardType="phone-pad"
+        />
+        <View style={styles.pickerContainer}>
+          <Text style={styles.pickerLabel}>Select shift</Text>
+          <Picker
+            style={styles.picker}
+            selectedValue={values.shift}
+            onValueChange={setValue('shift')}
+          >
+            {daysOfTheWeek.map(day => (
+              <Picker.Item label={day} value={day} key={day} />
+            ))}
+          </Picker>
+        </View>
+        {error && <Text style={styles.errorMessage}>{error}</Text>}
+        <Button
+          style={styles.button}
+          title={buttonText}
+          onPress={handleOnSubmit}
+          loading={loading}
+          disabled={disabled}
+        />
+        <TouchableOpacity style={styles.debugContainer} onPress={fillForm}>
+          <Text style={styles.debugText}>Fill form</Text>
+        </TouchableOpacity>
       </View>
-      {error && <Text style={styles.errorMessage}>{error}</Text>}
-      <Button style={styles.button} title={buttonText} onPress={handleOnSubmit} />
-      <TouchableOpacity style={styles.debugContainer} onPress={fillForm}>
-        <Text style={styles.debugText}>Fill form</Text>
-      </TouchableOpacity>
     </View>
   );
 };

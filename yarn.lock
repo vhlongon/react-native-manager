@@ -2257,6 +2257,13 @@ capture-exit@^2.0.0:
   dependencies:
     rsvp "^4.8.4"
 
+"casual-browserify@https://github.com/cihadturhan/casual-browserify":
+  version "1.5.12"
+  resolved "https://github.com/cihadturhan/casual-browserify#f4b130adc5c1d750ece12c90d8c1407ec2068379"
+  dependencies:
+    mersenne-twister "^1.0.1"
+    moment "^2.15.2"
+
 chalk@^2.0.0, chalk@^2.0.1, chalk@^2.4.1, chalk@^2.4.2:
   version "2.4.2"
   resolved "https://artifactory.etraveli.net/artifactory/api/npm/remote-npm/chalk/-/chalk-2.4.2.tgz#cd42541677a54333cf541a49108c1432b44c9424"
@@ -4626,6 +4633,11 @@ merge-stream@^2.0.0:
   resolved "https://artifactory.etraveli.net/artifactory/api/npm/remote-npm/merge-stream/-/merge-stream-2.0.0.tgz#52823629a14dd00c9770fb6ad47dc6310f2c1f60"
   integrity sha1-UoI2KaFN0AyXcPtq1H3GMQ8sH2A=
 
+mersenne-twister@^1.0.1:
+  version "1.1.0"
+  resolved "https://artifactory.etraveli.net/artifactory/api/npm/remote-npm/mersenne-twister/-/mersenne-twister-1.1.0.tgz#f916618ee43d7179efcf641bec4531eb9670978a"
+  integrity sha1-+RZhjuQ9cXnvz2Qb7EUx65Zwl4o=
+
 metro-babel-register@0.58.0:
   version "0.58.0"
   resolved "https://artifactory.etraveli.net/artifactory/api/npm/remote-npm/metro-babel-register/-/metro-babel-register-0.58.0.tgz#5c44786d49a044048df56cf476a2263491d4f53a"
@@ -4977,6 +4989,11 @@ mkdirp@^0.5.1:
   integrity sha1-2Rzv1i0UNsoPQWIOJRKI1CAJne8=
   dependencies:
     minimist "^1.2.5"
+
+moment@^2.15.2:
+  version "2.27.0"
+  resolved "https://artifactory.etraveli.net/artifactory/api/npm/remote-npm/moment/-/moment-2.27.0.tgz#8bff4e3e26a236220dfe3e36de756b6ebaa0105d"
+  integrity sha1-i/9OPiaiNiIN/j423nVrbrqgEF0=
 
 ms@2.0.0:
   version "2.0.0"
