@@ -1,19 +1,24 @@
 import React, { useState } from 'react';
 import * as SMS from 'expo-sms';
-import { StyleSheet, ScrollView, Modal } from 'react-native';
+import { StyleSheet, ScrollView, View } from 'react-native';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Ionicons } from '@expo/vector-icons';
 import { Button } from 'react-native-elements';
 import EmployeeForm from '../components/EmployeeForm';
 import { updateEmployee, removeEmployee } from '../services/firebaseStore';
+import Confirm from '../components/Confirm';
 
 const styles = StyleSheet.create({
-  button: {
+  fireButton: {
     backgroundColor: 'red',
+    color: 'white',
   },
   textButton: {
     borderWidth: 1,
     borderColor: '#2089dc',
+  },
+  buttonsContainer: {
+    marginHorizontal: 10,
   },
   buttonContainer: {
     margin: 10,
@@ -26,8 +31,8 @@ const styles = StyleSheet.create({
 
 const EmployeeDetailsScreen = ({ route, navigation }) => {
   const [error, setError] = useState(null);
+  const [showConfirm, setShowConfirm] = useState(false);
   const [loadingUpdate, setLoadingUpdate] = useState(false);
-  const [loadingDelete, setLoadingDelete] = useState(false);
   const { name, shift, phone, id } = route.params;
 
   const handleSubmit = async values => {
@@ -41,15 +46,14 @@ const EmployeeDetailsScreen = ({ route, navigation }) => {
     setLoadingUpdate(false);
   };
 
-  const handleDelete = async () => {
-    setLoadingDelete(true);
+  const deleteEmployee = async () => {
     try {
       await removeEmployee({ id });
+      setShowConfirm(false);
       navigation.navigate('Home');
     } catch (e) {
       setError(e.message);
     }
-    setLoadingDelete(false);
   };
 
   const sendText = async () => {
@@ -64,6 +68,15 @@ const EmployeeDetailsScreen = ({ route, navigation }) => {
 
   return (
     <ScrollView>
+      <Confirm
+        isVisible={showConfirm}
+        onAccept={deleteEmployee}
+        onDecline={() => {
+          setShowConfirm(false);
+        }}
+      >
+        Are you sure you want to fire the employee?
+      </Confirm>
       <EmployeeForm
         initialValues={{ name, shift, phone }}
         buttonText="Change details"
@@ -71,24 +84,30 @@ const EmployeeDetailsScreen = ({ route, navigation }) => {
         error={error}
         loading={loadingUpdate}
       />
-      <Button
-        style={styles.textButton}
-        containerStyle={styles.buttonContainer}
-        title="Text schedule"
-        type="outline"
-        onPress={sendText}
-      />
-      <Button
-        iconRight
-        icon={
-          <Ionicons style={styles.iconContainer} name="ios-remove-circle" size={20} color="white" />
-        }
-        onPress={handleDelete}
-        title="Remove Employee"
-        containerStyle={styles.buttonContainer}
-        buttonStyle={styles.button}
-        loading={loadingDelete}
-      />
+      <View style={styles.buttonsContainer}>
+        <Button
+          style={styles.textButton}
+          containerStyle={styles.buttonContainer}
+          title="Text schedule"
+          type="outline"
+          onPress={sendText}
+        />
+        <Button
+          buttonStyle={styles.fireButton}
+          iconRight
+          icon={
+            <Ionicons
+              style={styles.iconContainer}
+              name="ios-remove-circle"
+              size={20}
+              color="white"
+            />
+          }
+          containerStyle={styles.buttonContainer}
+          title="Fire Employee"
+          onPress={() => setShowConfirm(true)}
+        />
+      </View>
     </ScrollView>
   );
 };

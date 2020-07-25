@@ -20,6 +20,9 @@ export const signIn = (email, password) =>
 
 export const signOut = () => firebase.auth().signOut();
 
+export const persistAuth = () =>
+  firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+
 export const signUp = (email, password) =>
   firebase.auth().createUserWithEmailAndPassword(email, password);
 
@@ -27,6 +30,16 @@ export const getUser = () =>
   new Promise(resolve => {
     firebase.auth().onAuthStateChanged(resolve);
   });
+
+export const updateUserPassword = async newPassword => {
+  const user = await getUser();
+  return user.updatePassword(newPassword);
+};
+
+export const updateUserEmail = async newEmail => {
+  const user = await getUser();
+  return user.updateEmail(newEmail);
+};
 
 export const addEmployee = async ({ name, phone, shift }) => {
   const { uid } = await getUser();

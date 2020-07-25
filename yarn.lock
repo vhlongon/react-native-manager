@@ -3239,6 +3239,11 @@ expo-permissions@~9.0.1:
   resolved "https://artifactory.etraveli.net/artifactory/api/npm/remote-npm/expo-permissions/-/expo-permissions-9.0.1.tgz#dc10b58654bbe39bbbed5827369942b01b08055e"
   integrity sha1-3BC1hlS745u77VgnNplCsBsIBV4=
 
+expo-sms@~8.2.1:
+  version "8.2.1"
+  resolved "https://artifactory.etraveli.net/artifactory/api/npm/remote-npm/expo-sms/-/expo-sms-8.2.1.tgz#5ffe9de6f2c886b48b89f6084d98e72e3a6aecd9"
+  integrity sha1-X/6d5vLIhrSLifYITZjnLjpq7Nk=
+
 expo-splash-screen@^0.3.1:
   version "0.3.1"
   resolved "https://artifactory.etraveli.net/artifactory/api/npm/remote-npm/expo-splash-screen/-/expo-splash-screen-0.3.1.tgz#4dd79d9d1ab8135281f7cc5889a68e3003223f37"
