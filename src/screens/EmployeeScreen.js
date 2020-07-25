@@ -41,8 +41,8 @@ const transformEmployeesData = data =>
 
 const EmployeeScreen = ({ navigation }) => {
   const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [data, setData] = useState();
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState(null);
 
   const getData = async () => {
     setLoading(true);
@@ -50,7 +50,7 @@ const EmployeeScreen = ({ navigation }) => {
       const d = await getEmployees();
       setData(d ? transformEmployeesData(d) : null);
     } catch (e) {
-      setError(e);
+      setError(e.message);
     }
     setLoading(false);
   };
@@ -66,7 +66,7 @@ const EmployeeScreen = ({ navigation }) => {
       return <LoadingSpinner />;
     }
     if (error) {
-      return <Text style={styles.errorMessage}>{error}</Text>;
+      return <Text style={styles.errorMessage}>{JSON.stringify(error)}</Text>;
     }
     return data ? (
       <EmployeeList data={data} />

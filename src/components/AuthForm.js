@@ -3,7 +3,7 @@ import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Button, Input, Text } from 'react-native-elements';
 
 const styles = StyleSheet.create({
-  container: { marginTop: 40 },
+  container: { marginTop: 40, marginLeft: 10, marginRight: 10 },
   button: {
     margin: 10,
   },
@@ -26,9 +26,15 @@ const styles = StyleSheet.create({
   },
 });
 
-const AuthForm = ({ error, buttonText, onSubmit = () => {} }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+const isEmpty = object => !Object.values(object).every(Boolean);
+const AuthForm = ({
+  error,
+  buttonText,
+  onSubmit = () => {},
+  initialValues = { email: '', password: '' },
+}) => {
+  const [email, setEmail] = useState(initialValues.email);
+  const [password, setPassword] = useState(initialValues.password);
 
   const fillForm = () => {
     setEmail('test@test.com');
@@ -38,6 +44,8 @@ const AuthForm = ({ error, buttonText, onSubmit = () => {} }) => {
   const handleOnSubmit = () => {
     onSubmit(email, password);
   };
+
+  const disabled = isEmpty({ email, password });
 
   return (
     <View style={styles.container}>
@@ -57,7 +65,12 @@ const AuthForm = ({ error, buttonText, onSubmit = () => {} }) => {
         autoCorrect={false}
       />
       {error && <Text style={styles.errorMessage}>{error}</Text>}
-      <Button style={styles.button} title={buttonText} onPress={handleOnSubmit} />
+      <Button
+        style={styles.button}
+        title={buttonText}
+        onPress={handleOnSubmit}
+        disabled={disabled}
+      />
       <TouchableOpacity style={styles.debugContainer} onPress={fillForm}>
         <Text style={styles.debugText}>Fill form</Text>
       </TouchableOpacity>

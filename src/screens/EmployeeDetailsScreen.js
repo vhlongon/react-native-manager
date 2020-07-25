@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { StyleSheet } from 'react-native';
+import * as SMS from 'expo-sms';
+import { StyleSheet, ScrollView, Modal } from 'react-native';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Ionicons } from '@expo/vector-icons';
 import { Button } from 'react-native-elements';
@@ -9,6 +10,10 @@ import { updateEmployee, removeEmployee } from '../services/firebaseStore';
 const styles = StyleSheet.create({
   button: {
     backgroundColor: 'red',
+  },
+  textButton: {
+    borderWidth: 1,
+    borderColor: '#2089dc',
   },
   buttonContainer: {
     margin: 10,
@@ -31,7 +36,7 @@ const EmployeeDetailsScreen = ({ route, navigation }) => {
       await updateEmployee({ ...values, id });
       navigation.navigate('Home');
     } catch (e) {
-      setError(e);
+      setError(e.message);
     }
     setLoadingUpdate(false);
   };
@@ -42,19 +47,36 @@ const EmployeeDetailsScreen = ({ route, navigation }) => {
       await removeEmployee({ id });
       navigation.navigate('Home');
     } catch (e) {
-      setError(e);
+      setError(e.message);
     }
     setLoadingDelete(false);
   };
 
+  const sendText = async () => {
+    const isAvailable = await SMS.isAvailableAsync();
+    if (isAvailable) {
+      SMS.sendSMSAsync(phone, `Your work schedule is on ${shift}.`);
+    } else {
+      // show pop up or something
+      console.log('does not support text message');
+    }
+  };
+
   return (
-    <>
+    <ScrollView>
       <EmployeeForm
         initialValues={{ name, shift, phone }}
-        buttonText="update"
+        buttonText="Change details"
         onSubmit={handleSubmit}
         error={error}
         loading={loadingUpdate}
+      />
+      <Button
+        style={styles.textButton}
+        containerStyle={styles.buttonContainer}
+        title="Text schedule"
+        type="outline"
+        onPress={sendText}
       />
       <Button
         iconRight
@@ -62,12 +84,12 @@ const EmployeeDetailsScreen = ({ route, navigation }) => {
           <Ionicons style={styles.iconContainer} name="ios-remove-circle" size={20} color="white" />
         }
         onPress={handleDelete}
-        title="Remove"
+        title="Remove Employee"
         containerStyle={styles.buttonContainer}
         buttonStyle={styles.button}
         loading={loadingDelete}
       />
-    </>
+    </ScrollView>
   );
 };
 

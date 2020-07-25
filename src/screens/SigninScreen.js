@@ -1,7 +1,7 @@
 import React from 'react';
 import { SafeAreaView, AsyncStorage } from 'react-native';
 import AuthForm from '../components/AuthForm';
-import { signIn } from '../services/firebaseStore';
+import { signIn, persistAuth } from '../services/firebaseStore';
 import { ADD_ERROR, SIGN_IN, SIGNING_IN, useAuthContext } from '../context/AuthContext';
 import NavLink from '../components/NavLink';
 
@@ -12,9 +12,11 @@ const SigninScreen = () => {
     try {
       dispatch({ type: SIGNING_IN });
       const response = await signIn(email, password);
-      const userId = response.user.uid;
-      await AsyncStorage.setItem('userId', userId);
-      dispatch({ type: SIGN_IN, payload: userId });
+      const { user } = response;
+      const token = await user.getIdToken();
+      await AsyncStorage.setItem('token', token);
+      await persistAuth();
+      dispatch({ type: SIGN_IN, payload: { token, user } });
     } catch (e) {
       dispatch({ type: ADD_ERROR, payload: e.message });
     }

@@ -4,7 +4,7 @@ import { Button, Input, Text } from 'react-native-elements';
 import casual from 'casual-browserify';
 
 const styles = StyleSheet.create({
-  container: { marginTop: 40 },
+  container: { marginTop: 40, marginLeft: 10, marginRight: 10 },
   button: {
     margin: 10,
   },
@@ -63,7 +63,7 @@ const EmployeeForm = ({
 
   const fillForm = () => {
     setValues({
-      name: casual.name,
+      name: casual.full_name,
       phone: casual.phone,
       shift: casual.random_element(daysOfTheWeek),
     });

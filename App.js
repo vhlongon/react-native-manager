@@ -7,6 +7,7 @@ import {
   useAuthContext,
   ADD_ERROR,
   RESTORE_SESSION,
+  RESET,
 } from './src/context/AuthContext';
 import HomeScreen from './src/screens/HomeScreen';
 import SigninScreen from './src/screens/SigninScreen';
@@ -15,6 +16,7 @@ import LoadingSpinner from './src/components/LoadingSpinner';
 import * as RootNavigation from './src/RootNavigation';
 import AddEmployeeScreen from './src/screens/AddEmployeeScreen';
 import EmployeeDetailsScreen from './src/screens/EmployeeDetailsScreen';
+import { getUser } from './src/services/firebaseStore';
 
 const Stack = createStackNavigator();
 
@@ -23,15 +25,20 @@ const App = () => {
 
   useEffect(() => {
     const tryLocalSignin = async () => {
-      let userId;
+      let token;
 
       try {
-        userId = await AsyncStorage.getItem('userId');
+        token = await AsyncStorage.getItem('token');
+
+        if (token) {
+          const user = await getUser();
+          dispatch({ type: RESTORE_SESSION, payload: { token, user } });
+        } else {
+          dispatch({ type: RESET });
+        }
       } catch (e) {
         dispatch({ type: ADD_ERROR, payload: e.message });
       }
-
-      dispatch({ type: RESTORE_SESSION, payload: userId });
     };
 
     tryLocalSignin();

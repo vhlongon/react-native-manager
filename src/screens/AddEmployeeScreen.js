@@ -12,13 +12,18 @@ const AddEmployeeScreen = ({ navigation }) => {
       await addEmployee(values);
       navigation.navigate('Home');
     } catch (e) {
-      setError(e);
+      setError(e.message);
     }
     setLoading(false);
   };
 
   return (
-    <EmployeeForm buttonText="Create" onSubmit={handleOnSubmit} error={error} loading={loading} />
+    <EmployeeForm
+      buttonText="Add Employee"
+      onSubmit={handleOnSubmit}
+      error={error}
+      loading={loading}
+    />
   );
 };
 
