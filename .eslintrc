@@ -4,11 +4,7 @@
     "node": true,
     "es6": true
   },
-  "extends": [
-    "airbnb",
-    "plugin:prettier/recommended",
-    "plugin:react-hooks/recommended"
-  ],
+  "extends": ["airbnb", "plugin:prettier/recommended", "plugin:react-hooks/recommended"],
   "parser": "babel-eslint",
   "plugins": ["prettier", "react-hooks"],
   "ignorePatterns": ["**/.expo/**", "**/web-build", "*babel.config.js"],
@@ -40,6 +36,7 @@
         "react/jsx-filename-extension": "off",
         "react/prop-types": "off",
         "react/jsx-one-expression-per-line": "off",
+        "react/jsx-wrap-multilines": ["error", { "declaration": false, "assignment": false }],
         "no-restricted-syntax": [
           "error",
           {
