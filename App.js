@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { AsyncStorage, Text } from 'react-native';
+import { AsyncStorage } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import {
@@ -13,6 +13,7 @@ import SigninScreen from './src/screens/SigninScreen';
 import SignupScreen from './src/screens/SignupScreen';
 import LoadingSpinner from './src/components/LoadingSpinner';
 import * as RootNavigation from './src/RootNavigation';
+import AddEmployeeScreen from './src/screens/AddEmployeeScreen';
 
 const Stack = createStackNavigator();
 
@@ -46,10 +47,19 @@ const App = () => {
           backgroundColor: '#055694',
         },
         headerTintColor: '#fff',
+        headerBackTitleVisible: false,
         headerTitleStyle: { textAlign: 'center' },
-      }}>
+      }}
+    >
       {isSignedIn ? (
-        <Stack.Screen name="Home" component={HomeScreen} />
+        <>
+          <Stack.Screen name="Home" component={HomeScreen} />
+          <Stack.Screen
+            name="AddEmployee"
+            options={{ title: 'Create employee' }}
+            component={AddEmployeeScreen}
+          />
+        </>
       ) : (
         <>
           <Stack.Screen

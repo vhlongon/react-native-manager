@@ -44,7 +44,6 @@
   },
   "prettier": {
     "bracketSpacing": true,
-    "jsxBracketSameLine": true,
     "trailingComma": "all",
     "printWidth": 100,
     "singleQuote": true,
