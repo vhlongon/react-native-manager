@@ -5,7 +5,7 @@ import { signIn, persistAuth } from '../services/firebaseStore';
 import { ADD_ERROR, SIGN_IN, SIGNING_IN, useAuthContext } from '../context/AuthContext';
 import NavLink from '../components/NavLink';
 
-const SigninScreen = () => {
+const SigninScreen = ({ navigation }) => {
   const [{ error }, dispatch] = useAuthContext();
 
   const handleOnSubmit = async (email, password) => {
@@ -17,6 +17,7 @@ const SigninScreen = () => {
       await AsyncStorage.setItem('token', token);
       await persistAuth();
       dispatch({ type: SIGN_IN, payload: { token, user } });
+      navigation.navigate('Signin');
     } catch (e) {
       dispatch({ type: ADD_ERROR, payload: e.message });
     }

@@ -110,7 +110,7 @@ const EmployeeForm = ({
             ))}
           </Picker>
         </View>
-        {error && <Text style={styles.errorMessage}>{error}</Text>}
+        {error ? <Text style={styles.errorMessage}>{error}</Text> : null}
         <Button
           style={styles.button}
           title={buttonText}

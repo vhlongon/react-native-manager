@@ -31,6 +31,11 @@ export const getUser = () =>
     firebase.auth().onAuthStateChanged(resolve);
   });
 
+export const resignUser = async password => {
+  const user = await getUser();
+  const credential = firebase.auth.EmailAuthProvider.credential(user.email, password);
+  return user.reauthenticateWithCredential(credential);
+};
 export const updateUserPassword = async newPassword => {
   const user = await getUser();
   return user.updatePassword(newPassword);

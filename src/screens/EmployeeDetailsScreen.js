@@ -61,7 +61,7 @@ const EmployeeDetailsScreen = ({ route, navigation }) => {
     if (isAvailable) {
       SMS.sendSMSAsync(phone, `Your work schedule is on ${shift}.`);
     } else {
-      // show pop up or something
+      // in case of simulators we get here
       console.log('does not support text message');
     }
   };

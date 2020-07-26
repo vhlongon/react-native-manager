@@ -31,10 +31,12 @@ const AuthForm = ({
   error,
   buttonText,
   onSubmit = () => {},
-  initialValues = { email: '', password: '' },
+  initialValues = { email: '', password: '', confirmPassword: '' },
+  showConfirmPassword,
 }) => {
   const [email, setEmail] = useState(initialValues.email);
   const [password, setPassword] = useState(initialValues.password);
+  const [confirmPassword, setConfirmPassword] = useState(initialValues.password);
 
   const fillForm = () => {
     setEmail('test@test.com');
@@ -42,10 +44,14 @@ const AuthForm = ({
   };
 
   const handleOnSubmit = () => {
-    onSubmit(email, password);
+    onSubmit(email, password, showConfirmPassword ? confirmPassword : null);
   };
 
-  const disabled = isEmpty({ email, password });
+  const disabled = isEmpty({
+    email,
+    password,
+    ...(showConfirmPassword ? { confirmPassword } : {}),
+  });
 
   return (
     <View style={styles.container}>
@@ -64,7 +70,18 @@ const AuthForm = ({
         autoCapitalize="none"
         autoCorrect={false}
       />
-      {error && <Text style={styles.errorMessage}>{error}</Text>}
+
+      {showConfirmPassword && (
+        <Input
+          label="Confirm Password"
+          secureTextEntry
+          value={confirmPassword}
+          onChangeText={setConfirmPassword}
+          autoCapitalize="none"
+          autoCorrect={false}
+        />
+      )}
+      {error ? <Text style={styles.errorMessage}>{error}</Text> : null}
       <Button
         style={styles.button}
         title={buttonText}

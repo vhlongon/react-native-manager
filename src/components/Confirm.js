@@ -62,9 +62,7 @@ const Confirm = ({ children, isVisible, onAccept, onDecline, onClose = () => {} 
           buttonStyle={styles.noButton}
           title="No"
           onPress={onDecline}
-        >
-          No
-        </Button>
+        />
       </View>
     </View>
   </Overlay>
